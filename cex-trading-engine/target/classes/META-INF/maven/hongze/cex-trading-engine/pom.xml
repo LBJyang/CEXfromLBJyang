@@ -21,6 +21,11 @@
 			<artifactId>cex-shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>hongze</groupId>
+			<artifactId>cex-config</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
