@@ -3,8 +3,8 @@ package hongze.myCEX.assets;
 import java.math.BigDecimal;
 
 public class Asset {
-	BigDecimal available;
-	BigDecimal frozen;
+	public BigDecimal available;
+	public BigDecimal frozen;
 
 	public Asset() {
 		available = BigDecimal.ZERO;

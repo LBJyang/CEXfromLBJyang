@@ -2,6 +2,8 @@ package hongze.myCEX.model.trade;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import hongze.myCEX.enums.Direction;
 import hongze.myCEX.enums.OrderStatus;
 import hongze.myCEX.model.support.EntitySupport;
@@ -9,26 +11,36 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
 public class OrderEntity implements EntitySupport, Comparable<OrderEntity> {
-	
+
 	@Id
 	@Column(nullable = false, updatable = false)
 	public Long id;
-	
+
+	@Column(nullable = false, updatable = false)
 	public long sequenceId;
+
+	@Column(nullable = false, updatable = false, length = VAR_ENUM)
 	public Direction direction;
 
+	@Column(nullable = false, updatable = false)
 	public Long userId;
+
+	@Column(nullable = false, updatable = false, precision = PRECISION, scale = SCALE)
 	public BigDecimal price;
+	@Column(nullable = false, updatable = false, length = VAR_ENUM)
 	public OrderStatus status;
-
+	@Column(nullable = false, updatable = false, precision = PRECISION, scale = SCALE)
 	public BigDecimal quantity;
+	@Column(nullable = false, updatable = false, precision = PRECISION, scale = SCALE)
 	public BigDecimal unfilledQuantity;
-
+	@Column(nullable = false, updatable = false)
 	public long createdAt;
+	@Column(nullable = false, updatable = false)
 	public long updatedAt;
 
 	private int version;
@@ -41,6 +53,7 @@ public class OrderEntity implements EntitySupport, Comparable<OrderEntity> {
 		version++;
 	}
 
+	@org.springframework.lang.Nullable
 	public OrderEntity copy() {
 		OrderEntity entity = new OrderEntity();
 		int ver = this.version;
@@ -65,6 +78,8 @@ public class OrderEntity implements EntitySupport, Comparable<OrderEntity> {
 		return Long.compare(this.id.longValue(), o.id.longValue());
 	}
 
+	@Transient
+	@JsonIgnore
 	public int getVersion() {
 		return version;
 	}

@@ -35,7 +35,6 @@ class AssetServiceTest {
 	 * C: BTC=34
 	 */
 	private void init() {
-		// TODO Auto-generated method stub
 		assetService.tryTransfer(Transfer.AVAILABLE_TO_AVAILABLE, CEX, UserA, AssetEnum.USDT,
 				BigDecimal.valueOf(123000), false);
 		assetService.tryTransfer(Transfer.AVAILABLE_TO_AVAILABLE, CEX, UserA, AssetEnum.BTC, BigDecimal.valueOf(12),
