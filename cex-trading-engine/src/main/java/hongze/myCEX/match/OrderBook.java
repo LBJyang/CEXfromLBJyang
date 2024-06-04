@@ -1,11 +1,23 @@
 package hongze.myCEX.match;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import hongze.myCEX.bean.OrderBookItemBean;
 import hongze.myCEX.enums.Direction;
 import hongze.myCEX.model.trade.OrderEntity;
 
+/**
+ * The order book. Given different direction,there are different treemaps. In
+ * the sell book,the price is from high to low,but the buy book is reverse.You
+ * can add or remove order from the book,and also you can check whether the
+ * order is in the book using Method existOrder. The getOrderBook is to get the
+ * order book detail,each price to amount.
+ */
 public class OrderBook {
 	public final Direction direction;
 	public final TreeMap<OrderKey, OrderEntity> book;
@@ -60,9 +72,49 @@ public class OrderBook {
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
 		return this.book.size();
 	}
-	
-	
+
+	/**
+	 * Get the order book detail,each price to amount.
+	 */
+	public List<OrderBookItemBean> getOrderBook(int maxDepth) {
+		List<OrderBookItemBean> items = new ArrayList<OrderBookItemBean>();
+		OrderBookItemBean prevItem = null;
+		for (OrderKey key : this.book.keySet()) {
+			OrderEntity order = this.book.get(key);
+			if (prevItem == null) {
+				prevItem = new OrderBookItemBean(order.price, order.quantity);
+				items.add(prevItem);
+			} else {
+				if (order.price.compareTo(prevItem.price) == 0) {
+					prevItem.quantity.add(order.quantity);
+				} else {
+					if (items.size() >= maxDepth) {
+						break;
+					}
+					prevItem = new OrderBookItemBean(order.price, order.quantity);
+					items.add(prevItem);
+				}
+			}
+		}
+		return items;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		if (this.book.isEmpty()) {
+			return "empty.";
+		}
+		List<String> orders = new ArrayList<String>(10);
+		for (Entry<OrderKey, OrderEntity> entry : this.book.entrySet()) {
+			OrderEntity order = entry.getValue();
+			orders.add("  " + order.price + " " + order.unfilledQuantity + " " + order.toString());
+		}
+		if (direction == Direction.SELL) {
+			Collections.reverse(orders);
+		}
+		return String.join("\n", orders);
+	}
 }
