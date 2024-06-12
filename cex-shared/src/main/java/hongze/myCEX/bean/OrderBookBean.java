@@ -5,7 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import hongze.myCEX.bean.util.JsonUtil;
+import hongze.myCEX.util.JsonUtil;
+
 
 public class OrderBookBean {
 	public OrderBookBean(long sequenceId, BigDecimal price, List<OrderBookItemBean> buy, List<OrderBookItemBean> sell) {

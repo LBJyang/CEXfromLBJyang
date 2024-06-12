@@ -59,15 +59,15 @@ public class OrderBook {
 		return this.book.isEmpty() ? null : this.book.firstEntry().getValue();
 	}
 
-	public boolean addOrder(OrderEntity order) {
+	public boolean add(OrderEntity order) {
 		return this.book.put(new OrderKey(order.sequenceId, order.price), order) == null;
 	}
 
-	public boolean removeOrder(OrderEntity order) {
+	public boolean remove(OrderEntity order) {
 		return this.book.remove(new OrderKey(order.sequenceId, order.price)) != null;
 	}
 
-	public boolean existOrder(OrderEntity order) {
+	public boolean exist(OrderEntity order) {
 		return this.book.containsKey(new OrderKey(order.sequenceId, order.price));
 	}
 

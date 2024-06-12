@@ -53,7 +53,7 @@ public class MatchEngine {
 			if (makerUnfilledQuantity.signum() == 0) {// makerOrder is completely fulfilled,remove it from maker book
 														// and update the maker order.
 				makerOrder.updateOrder(makerUnfilledQuantity, OrderStatus.FULLY_FILLED, ts);
-				makerBook.removeOrder(makerOrder);
+				makerBook.remove(makerOrder);
 			} else {// maker order is partial fulfilled,just update the order.
 				makerOrder.updateOrder(makerUnfilledQuantity, OrderStatus.PARTIAL_FILLED, ts);
 			}
@@ -70,7 +70,7 @@ public class MatchEngine {
 					takerUnfilledQuantity.compareTo(takerOrder.quantity) == 0 ? OrderStatus.PENDING
 							: OrderStatus.PARTIAL_FILLED,
 					ts);
-			anotherBook.addOrder(takerOrder);
+			anotherBook.add(takerOrder);
 		}
 		return matchResult;
 	}
@@ -78,7 +78,7 @@ public class MatchEngine {
 	public void cancel(long ts, OrderEntity order) {
 		// remove from order book
 		OrderBook book = order.direction == Direction.BUY ? this.buyBook : this.sellBook;
-		if (!book.removeOrder(order)) {
+		if (!book.remove(order)) {
 			throw new IllegalArgumentException("Order not found in order book.");
 		}
 		// update order
@@ -90,5 +90,15 @@ public class MatchEngine {
 	public OrderBookBean getOrderBook(int maxDepth) {
 		return new OrderBookBean(this.sequenceId, this.marketPrice, this.buyBook.getOrderBook(maxDepth),
 				this.sellBook.getOrderBook(maxDepth));
+	}
+
+	public void debug() {
+		System.out.println("---------- match engine ----------");
+		System.out.println(this.sellBook);
+		System.out.println("  ----------");
+		System.out.println("  " + this.marketPrice);
+		System.out.println("  ----------");
+		System.out.println(this.buyBook);
+		System.out.println("---------- // match engine ----------");
 	}
 }

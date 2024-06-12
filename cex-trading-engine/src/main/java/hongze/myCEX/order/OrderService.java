@@ -1,6 +1,9 @@
 package hongze.myCEX.order;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,7 +23,7 @@ public class OrderService {
 		this.assetService = assetService;
 	}
 
-	public ConcurrentMap<Long, OrderEntity> getActiveOrder() {
+	public ConcurrentMap<Long, OrderEntity> getActiveOrders() {
 		return activeOrders;
 	}
 
@@ -91,5 +94,17 @@ public class OrderService {
 		if (uOrders.remove(orderId) == null) {
 			throw new IllegalArgumentException("Order not found by orderId in user orders: " + orderId);
 		}
+	}
+
+	public void debug() {
+		System.out.println("---------- orders ----------");
+		List<OrderEntity> orders = new ArrayList<>(this.activeOrders.values());
+		Collections.sort(orders);
+		for (OrderEntity order : orders) {
+			System.out.println("  " + order.id + " " + order.direction + " price: " + order.price + " unfilled: "
+					+ order.unfilledQuantity + " quantity: " + order.quantity + " sequenceId: " + order.sequenceId
+					+ " userId: " + order.userId);
+		}
+		System.out.println("---------- // orders ----------");
 	}
 }
