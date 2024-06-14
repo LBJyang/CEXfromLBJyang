@@ -24,7 +24,7 @@ public class OrderEntity implements EntitySupport, Comparable<OrderEntity> {
 	@Column(nullable = false, updatable = false)
 	public long sequenceId;
 
-	@Column(nullable = false, updatable = false, length = VAR_ENUM)
+	@Column(nullable = false, updatable = false, length = VAR_CHAR)
 	public Direction direction;
 
 	@Column(nullable = false, updatable = false)
@@ -32,7 +32,7 @@ public class OrderEntity implements EntitySupport, Comparable<OrderEntity> {
 
 	@Column(nullable = false, updatable = false, precision = PRECISION, scale = SCALE)
 	public BigDecimal price;
-	@Column(nullable = false, updatable = false, length = VAR_ENUM)
+	@Column(nullable = false, updatable = false, length = VAR_CHAR)
 	public OrderStatus status;
 	@Column(nullable = false, updatable = false, precision = PRECISION, scale = SCALE)
 	public BigDecimal quantity;
