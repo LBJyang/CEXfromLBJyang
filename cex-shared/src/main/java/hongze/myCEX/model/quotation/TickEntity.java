@@ -12,7 +12,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-
 @Entity
 @Table(name = "ticks", uniqueConstraints = @UniqueConstraint(name = "UNI_T_M", columnNames = { "takerOrderId",
         "makerOrderId" }), indexes = @Index(name = "IDX_CAT", columnList = "createdAt"))
